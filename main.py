@@ -1,8 +1,10 @@
 import datetime
-
+import smtplib
 from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap5
-
+import os
+from dotenv import load_dotenv
+import pprint
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Text
@@ -15,7 +17,7 @@ from datetime import date
 '''
 Make sure the required packages are installed: 
 Open the Terminal in PyCharm (bottom left). 
-
+    
 On Windows type:
 python -m pip install -r requirements.txt
 
@@ -44,10 +46,6 @@ def contact_me():
         message = request.form["message"]
         print(name, contact_email, subject, message)
 
-        import smtplib
-        import os
-        from dotenv import load_dotenv
-        import pprint
         load_dotenv()
         email = "umitaslan.au@gmail.com"
         email_to2 = "aslan.umit@outlook.com"
