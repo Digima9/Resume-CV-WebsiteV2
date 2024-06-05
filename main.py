@@ -5,6 +5,9 @@ from flask_bootstrap import Bootstrap5
 import os
 from dotenv import load_dotenv
 import pprint
+import requests
+import datetime as dt
+
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Text
@@ -52,18 +55,34 @@ def contact_me():
 
         pprint.pprint(dict(os.environ))
         password = os.environ["PASSWORD"]
+        load_dotenv()
 
-        with smtplib.SMTP(host='smtp.gmail.com') as connection:
+        APIKEY = os.environ["APIKEY"]
+        DOMAIN = os.environ["DOMAIN"]
+        url = f"https://api.mailgun.net/v3/{DOMAIN}/messages"
+        auth = ("api", APIKEY)
 
-            connection.starttls()
-            connection.login(user=email, password=password)
+        data = {
+            "from": "umitaslan_resume@mailgun.org",
+            "to": ["aslan.umit@outlook.com"],
+            "subject": "NEW MESSAGE FROM YOUR WEBSITE",
+            "text": f"Subject: {subject}\n\nMessage From : {name}\n\nEmail Address:{contact_email}\n\nMessage :{message}"}
 
-            connection.sendmail(from_addr=email, to_addrs=email_to2,
-                                msg=f'Subject:An email from your site-Subject: {subject}'
-                                    f'\n\nMessage From : {name}\n\n'
-                                    f'Email Address:{contact_email}\n\nMessage :{message}')
+        response = requests.post(url=url, auth=auth, data=data)
+        print(response.text)
+
+        # with smtplib.SMTP(host='smtp.gmail.com') as connection:
+        #
+        #     connection.starttls()
+        #     connection.login(user=email, password=password)
+        #
+        #     connection.sendmail(from_addr=email, to_addrs=email_to2,
+        #                         msg=f'Subject:An email from your site-Subject: {subject}'
+        #                             f'\n\nMessage From : {name}\n\n'
+        #                             f'Email Address:{contact_email}\n\nMessage :{message}')
 
     return redirect(url_for("index"))
+
 
 
 if __name__ == "__main__":
