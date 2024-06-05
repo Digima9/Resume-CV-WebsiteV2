@@ -5,7 +5,7 @@ from flask_bootstrap import Bootstrap5
 import os
 from dotenv import load_dotenv
 import pprint
-import requests
+
 import datetime as dt
 
 from flask_sqlalchemy import SQLAlchemy
@@ -41,6 +41,8 @@ def index():
 
 @app.route('/', methods=['POST'])
 def contact_me():
+
+    import requests
 
     if request.method == "POST":
         name = request.form['name']
