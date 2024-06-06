@@ -60,33 +60,32 @@ def contact_me():
         password = os.environ["PASSWORD"]
         load_dotenv()
 
-        APIKEY = os.environ["APIKEY"]
-        DOMAIN = os.environ["DOMAIN"]
-        url = f"https://api.mailgun.net/v3/{DOMAIN}/messages"
-        auth = ("api", APIKEY)
-
-        data = {
-            "from": "umitaslan_resume@mailgun.org",
-            "to": ["aslan.umit@outlook.com"],
-            "subject": "NEW MESSAGE FROM YOUR WEBSITE",
-            "text": f"Subject: {subject}\n\nMessage From : {name}\n\nEmail Address:{contact_email}\n\nMessage :{message}"}
-
-        response = requests.post(url=url, auth=auth, data=data)
-        print(response.text)
-
-        # with smtplib.SMTP(host='smtp.gmail.com') as connection:
+        # APIKEY = os.environ["APIKEY"]
+        # DOMAIN = os.environ["DOMAIN"]
+        # url = f"https://api.mailgun.net/v3/{DOMAIN}/messages"
+        # auth = ("api", APIKEY)
         #
-        #     connection.starttls()
-        #     connection.login(user=email, password=password)
+        # data = {
+        #     "from": "umitaslan_resume@mailgun.org",
+        #     "to": ["aslan.umit@outlook.com"],
+        #     "subject": "NEW MESSAGE FROM YOUR WEBSITE",
+        #     "text": f"Subject: {subject}\n\nMessage From : {name}\n\nEmail Address:{contact_email}\n\nMessage :{message}"}
         #
-        #     connection.sendmail(from_addr=email, to_addrs=email_to2,
-        #                         msg=f'Subject:An email from your site-Subject: {subject}'
-        #                             f'\n\nMessage From : {name}\n\n'
-        #                             f'Email Address:{contact_email}\n\nMessage :{message}')
+        # response = requests.post(url=url, auth=auth, data=data)
+        # print(response.text)
+
+        with smtplib.SMTP(host='smtp.gmail.com', port=587) as connection:
+
+            connection.starttls()
+            connection.login(user=email, password=password)
+
+            connection.sendmail(from_addr=email, to_addrs=email_to2,
+                                msg=f'Subject:An email from your site-Subject: {subject}'
+                                    f'\n\nMessage From : {name}\n\n'
+                                    f'Email Address:{contact_email}\n\nMessage :{message}')
 
     return redirect(url_for("index"))
 
 
-
 if __name__ == "__main__":
-    app.run(debug=True, port=5004)
+    app.run(debug=True)
