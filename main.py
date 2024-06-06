@@ -40,10 +40,8 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET','POST'])
 def contact_me():
-
-
 
     if request.method == "POST":
         name = request.form['name']
