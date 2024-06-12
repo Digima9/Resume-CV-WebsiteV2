@@ -56,8 +56,8 @@ def contact_me():
 
         pprint.pprint(dict(os.environ))
         password = os.environ["PASSWORD"]
-        load_dotenv()
-
+        # load_dotenv()
+        #
         # APIKEY = os.environ["APIKEY"]
         # DOMAIN = os.environ["DOMAIN"]
         # url = f"https://api.mailgun.net/v3/{DOMAIN}/messages"
